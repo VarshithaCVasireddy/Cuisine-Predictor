@@ -1,5 +1,10 @@
+from pandas import notnull
+import pytest
 import predictor
 
+from predictor import *
 
-def test_uno():
-    assert predictor.hello_duo() == "Hey back duo"
+
+def fit_prediction_models():
+    assert fit_prediction_models().svc is not None
+

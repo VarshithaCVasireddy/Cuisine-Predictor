@@ -179,4 +179,6 @@ pipenv run python project2.py --N 5 --ingredient paprika
 
 Then run the below command to test the testcases. 
 
-> pipenv run python -m pytest -v
+~~~
+ pipenv run python -m pytest -v
+~~~
