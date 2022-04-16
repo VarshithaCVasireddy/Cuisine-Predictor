@@ -23,7 +23,7 @@ RAW_DATA = pd.read_json(data_file)
 
 def fit_prediction_models():
     x, y = get_yummly_data()
-
+    
     svc = CalibratedClassifierCV(LinearSVC()).fit(x, y)
     nn = NearestNeighbors(n_neighbors=5, metric='cosine').fit(x)
 

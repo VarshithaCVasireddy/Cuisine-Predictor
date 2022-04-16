@@ -14,7 +14,7 @@ def main(args):
 
         print(json.dumps(output, indent=2))
     except BaseException as e:
-        print(e.with_traceback())
+        print("Something went wrong!!!")
     
 
 
