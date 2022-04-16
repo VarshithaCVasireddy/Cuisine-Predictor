@@ -17,15 +17,13 @@ The goal of the project is to create an application that take a list of ingredie
 2 python files are present in this project, **project2.py** and **predictor.py**
 ### predictor.py
 Below Packages imported are in order to run this program code and to use their functionalities
-```
+~~~
 import re
 import os
-
 import pandas as pd
 import nltk
 nltk.download('wordnet')
 nltk.download('omw-1.4')
-
 from nltk.tokenize import word_tokenize
 from nltk.stem import WordNetLemmatizer
 from sklearn.feature_extraction.text import TfidfVectorizer
@@ -33,14 +31,16 @@ from sklearn.preprocessing import LabelEncoder
 from sklearn.svm import LinearSVC
 from sklearn.calibration import CalibratedClassifierCV
 from sklearn.neighbors import NearestNeighbors
-```
-yummly.json file is read using pandas.read_json file and is called RAW_DATA.
-- 5 functions are written in this program
+~~~
+
+yummly.json file is read using pandas.read_json file and is called RAW_DATA. <br/>
+
+5 functions are written in this program
 
 #### get_yummly_data
 The RAW_DATA is made a copy and is loaded into dataframe. And the ingredients column of the data undergoes **pre_process_ingredients** function processing, which is described below. And TfidVectorization is done on ingredients data and Label encoding is done on cuisine data which is used as label. These two vectorizations are fitted and transformed. The vectorized ingredients and cuisine data is returned. The code is as below
 
-```
+~~~
 def get_yummly_data():
     df = RAW_DATA.copy()
     df.ingredients = df.ingredients.map(pre_process_ingredients)
@@ -48,12 +48,13 @@ def get_yummly_data():
     x = TFIDF.fit_transform(df.ingredients)
     y = LE.fit_transform(df.cuisine)
     return x,y
-```
+~~~
+
 Referred: https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.LabelEncoder.html, https://www.youtube.com/watch?v=0_LPy-LtYqI
 
 #### pre_process_ingredients
 Ingredients data is taken as input. All the data is turned into lower case. The words are tokenized and are lemmatized to get base form and the words representing same ingredient is joined by underscore. I got this idea by seeing cuisine data, where one value have underscore present between the words instead of space. Later all ingredients are joined with a comman in between. Ingredients cleaning of data is done and it is returned.
-```
+~~~
 def pre_process_ingredients(ingredients):
     lemma = WordNetLemmatizer()
     ingredients = [ingredient.lower() for ingredient in ingredients]
@@ -63,18 +64,20 @@ def pre_process_ingredients(ingredients):
     ingredients = ",".join(ingredients)
 
     return ingredients
-```
+~~~
 Referred: https://www.youtube.com/watch?v=0_LPy-LtYqI
 
 #### fit_prediction_models
 get_yummly_data function is executed. The processed ingredients and label data i.e cuisine data is given into CalibratedClassifierCV model where the base estimator is LinearSVC() and the x,y data are fitted into that model. Tested many machine learning models like Naive Bayes, Random forest, etc, where out of those I found that LinearSVC is giving better prediction score. To find the nearest dishes close to the ingredients given I used NearestNeighbors, it is an unsupervised learner for implementing neighbor searches. So giving just the ingredients data is sufficient, no need of giving labeled data. To calculate the distance between the ingredients I used the "cosine" distance as it was mentioned in class as it is best to use. 
-```
+
+~~~
 def fit_prediction_models():
     x, y = get_yummly_data()
 
     svc = CalibratedClassifierCV(LinearSVC()).fit(x, y)
     nn = NearestNeighbors(n_neighbors=5, metric='cosine').fit(x)
-```
+~~~
+
 Referred: https://scikit-learn.org/stable/modules/generated/sklearn.calibration.CalibratedClassifierCV.html, https://scikit-learn.org/stable/modules/generated/sklearn.neighbors.NearestNeighbors.html#sklearn.neighbors.NearestNeighbors.kneighbors, https://stats.stackexchange.com/questions/337050/how-to-find-nearest-neighbors-using-cosine-similarity-for-all-items-from-a-large
 
 #### find_cuisine
@@ -93,7 +96,7 @@ def find_cuisine(svc, ingredient):
 
 #### find_closest
 pre_process_ingredients functionality is carried out on ingredient data. Then the vectorization will be done on it. From the nearestneighbors model the distances and the indices are taken. The indices value is accessed using the position value given by the model and the similarity between the ingredients is 1 - the distance. Distance taken here is cosine similarity distance. The id is to be given as string and the score is the similarity score which is given after rounding it to 2 digits after decimal.
-```
+~~~
 def find_closest(nn, ingredient, N):
     processed_ingreds = pre_process_ingredients(ingredient)
     inp_X = TFIDF.transform([processed_ingreds])
@@ -102,7 +105,7 @@ def find_closest(nn, ingredient, N):
     closest = [(RAW_DATA.iloc[ind, 0], 1 - dist) for ind, dist in zip(indices[0], distances[0])]
     closest = [{"id": str(id), "score": round(score, 2)} for id, score in closest]
     return closest
-```
+~~~
 
 ### project2.py
 Packages imported in this file are 
@@ -116,14 +119,17 @@ Below are the input arguments that are added by the add_argument method.
 - -- ingredient
 #### --N
 This is an integer given, it specifies the top N closest foods that user wants. The code for it is.
-```
+
+~~~
 parser.add_argument('--N',required = True, type = int,help='Top N closest meals that are to be revealed')
-```
+~~~
+
 #### -- ingredient
 This is a string type, and user gives the ingredients as input.
-```
+~~~
 parser.add_argument('--ingredient', required = True, type = str, action = "append", help='ingredients are to be inputted')
-```
+~~~
+
 These arguments are passed to main method.
 #### main
 A try catch block is used to catch errors. An empty dictionary is created and is named as output. In the try block the functions from predictor program is called.
@@ -133,9 +139,10 @@ A try catch block is used to catch errors. An empty dictionary is created and is
 - predictor.find_closest function is called in order to find the top N dishes by considering the ingredients given. Arguments passed are nn, ingredient and N. The results are taken into the dictionary with the key as "closest".
 <br/>
 - The output where data is collected is changed into json format and is printed onto the screen. This is the output that is expected.
-```
+
+~~~
  print(json.dumps(output, indent=2))
-```
+~~~
 
 ## 4. Assumptions/Bugs
 - The results are based on models that are used, they might not give exact results.
