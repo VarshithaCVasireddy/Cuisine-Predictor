@@ -142,10 +142,11 @@ A try catch block is used to catch errors. An empty dictionary is created and is
 - predictor.find_closest function is called in order to find the top N dishes by considering the ingredients given. Arguments passed are nn, ingredient and N. The results are taken into the dictionary with the key as "closest".
 <br/>
 - The output where data is collected is changed into json format and is printed onto the screen. This is the output that is expected.
-
 ~~~
  print(json.dumps(output, indent=2))
 ~~~
+If something went wrong then the except block error is written.
+
 
 ## Tests
 In the tests I tested all the 5 functions functionalities of predictor.py file.
@@ -213,6 +214,8 @@ Clone the project directory using below command
 git clone https://github.com/VarshithaCVasireddy/cs5293sp22-project2
 ~~~
 After cloning go to that folder and run below commands
+<br/>
+
 -**Step2**
 Run below command to install pipenv
 ~~~
