@@ -8,7 +8,6 @@ def test_pre_process_ingredients():
     actual_ingredients = pre_process_ingredients(["Rices flour", "scrambled eggs"])
     assert actual_ingredients == "rice_flour,scrambled_egg"
 
-@pytest.mark.skip(reason="time taking test")
 def test_get_yummly_data():
     actual_x, actual_y = get_yummly_data()
     assert actual_x.shape == (39774, 6880)

@@ -13,10 +13,10 @@ The goal of the project is to create an application that take a list of ingredie
 3. Use the model to predict the type of cuisine and tell the user.
 4. Find the top N closest foods (you can define N). Return the IDs of those dishes to the user. If a dataset does not have IDs associated with them you may add them arbitrarily.
 
-<br/>
-
 ## Structure of project
+
 2 python files are present in this project, **project2.py** and **predictor.py**
+
 ### predictor.py
 Below Packages imported are in order to run this program code and to use their functionalities
 ~~~
@@ -24,8 +24,9 @@ import re
 import os
 import pandas as pd
 import nltk
-nltk.download('wordnet')
-nltk.download('omw-1.4')
+nltk.download('wordnet',quiet=True)
+nltk.download('omw-1.4',quiet=True)
+nltk.download('punkt',quiet=True)
 from nltk.tokenize import word_tokenize
 from nltk.stem import WordNetLemmatizer
 from sklearn.feature_extraction.text import TfidfVectorizer
@@ -146,7 +147,60 @@ A try catch block is used to catch errors. An empty dictionary is created and is
  print(json.dumps(output, indent=2))
 ~~~
 
-## 4. Assumptions/Bugs
+## Tests
+In the tests I tested all the 5 functions functionalities of predictor.py file.
+
+### test_pre_process_ingredients
+The pre_process_ingredients function is tested here. Ingredients are sent and the output is checked with the expected. In this function the ingredients data is cleaned and set properly as we want it to be kept in the models for the next stages.
+~~~
+def test_pre_process_ingredients():
+    actual_ingredients = pre_process_ingredients(["Rices flour", "scrambled eggs"])
+    assert actual_ingredients == "rice_flour,scrambled_egg"
+~~~
+
+### test_get_yummly_data
+get_yummly_data function is called in this test method. The return variables are taken. And the labels i.e cuisine and ingredient corpus vectorized shape is taken and is checked with the expected ones.
+~~~
+def test_get_yummly_data():
+    actual_x, actual_y = get_yummly_data()
+    assert actual_x.shape == (39774, 6880)
+    assert actual_y.shape == (39774,)
+~~~
+### models()
+In this test fit_prediction_models function is called. svc and nn are returned. I used pytest fixture with the scope of module in order to save time, because this function of models returning will be used in other test functions. 
+~~~
+@pytest.fixture(scope="module")
+def models():
+    svc, nn = fit_prediction_models()
+
+    return svc, nn
+~~~
+### test_fit_prediction_models
+The svc and nn models are checked if they are not NoneType are not. So see if the models are working and are giving some output.
+~~~
+def test_fit_prediction_models(models):
+    assert models[0] is not NoneType
+    assert models[1] is not NoneType
+~~~
+### test_find_cuisine
+The models are given as argument. The svc model is taken as argument and it's functionality is checked. And the output is checked with the expected output i.e cuisine and the score.
+~~~
+def test_find_cuisine(models):
+    actual_cuisine, actual_score = find_cuisine(models[0], ["Rices flour", "scrambled eggs"])
+    
+    assert actual_cuisine == "indian"
+    assert actual_score == 0.36
+~~~
+### test_find_closest
+Now here the closest dishes are checked. The nn model is given to get the neighbors i.e the closest dishes. I am giving that I need 5 neighbors and I checked the output length to see if I got 5 dishes.
+~~~
+def test_find_closest(models):
+    actual_closest = find_closest(models[1], ["Rices flour", "scrambled eggs"], 5)
+    
+    assert len(actual_closest) == 5
+~~~
+
+## Assumptions/Bugs
 - The results are based on models that are used, they might not give exact results.
 - The dishes which matches the ingredients are given from all the cuisines, not from the cuisine that is predicted first based on ingredients.
 
