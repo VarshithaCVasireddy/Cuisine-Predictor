@@ -3,8 +3,9 @@ import os
 
 import pandas as pd
 import nltk
-nltk.download('wordnet')
-nltk.download('omw-1.4')
+nltk.download('wordnet',quiet=True)
+nltk.download('omw-1.4',quiet=True)
+nltk.download('punkt',quiet=True)
 
 from nltk.tokenize import word_tokenize
 from nltk.stem import WordNetLemmatizer
@@ -24,7 +25,7 @@ def fit_prediction_models():
     x, y = get_yummly_data()
 
     svc = CalibratedClassifierCV(LinearSVC()).fit(x, y)
-    nn = NearestNeighbors(n_neighbors=5, metric='cosine').fit(x, y)
+    nn = NearestNeighbors(n_neighbors=5, metric='cosine').fit(x)
 
     return svc, nn
 
@@ -57,10 +58,16 @@ def get_yummly_data():
     return x, y
 
 def pre_process_ingredients(ingredients):
+    # lemma = WordNetLemmatizer()
+    # ingredients = [ingredient.lower() for ingredient in ingredients]
+    # ingredients = [re.sub(r" +", "_", i.strip()) for i in ingredients]
+    # ingredients = [lemma.lemmatize(i) for i in ingredients]    
+    # ingredients = ",".join(ingredients)
     lemma = WordNetLemmatizer()
     ingredients = [ingredient.lower() for ingredient in ingredients]
+    ingredients = [word_tokenize(i) for i in ingredients]
+    ingredients = [" ".join([lemma.lemmatize(j) for j in i]) for i in ingredients]
     ingredients = [re.sub(r" +", "_", i.strip()) for i in ingredients]
-    ingredients = [lemma.lemmatize(i) for i in ingredients]    
     ingredients = ",".join(ingredients)
 
     return ingredients

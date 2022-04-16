@@ -4,7 +4,6 @@ import json
 import predictor
 
 def main(args):
-    print(args)
 
     try:
         output = {}

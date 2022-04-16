@@ -1,1 +1,8 @@
-Biswas Nandamuri | biswas.nandamuri@ou.edu | 
+Biswas Nandamuri | biswas.nandamuri@ou.edu | Said me about CalibratedClassifierCV
+Referred below links for doing project
+https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.LabelEncoder.html | for label encoding
+https://www.youtube.com/watch?v=0_LPy-LtYqI | Learned about vectorization, lemmatization and fitting data into machine learning models
+https://scikit-learn.org/stable/modules/generated/sklearn.calibration.CalibratedClassifierCV.html | Learned about CalibratedClassifierCV
+https://scikit-learn.org/stable/modules/generated/sklearn.neighbors.NearestNeighbors.html#sklearn.neighbors.NearestNeighbors.kneighbors | Learned about NearestNeighbors
+https://stats.stackexchange.com/questions/337050/how-to-find-nearest-neighbors-using-cosine-similarity-for-all-items-from-a-large | Learned that cosine distance can be used by model to calculate distance
+https://scikit-learn.org/stable/modules/generated/sklearn.svm.LinearSVC.html | To Learn about LinearSVC
