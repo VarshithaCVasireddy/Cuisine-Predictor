@@ -215,7 +215,9 @@ git clone https://github.com/VarshithaCVasireddy/cs5293sp22-project2
   
 -**Step2**
 Run below command to install pipenv
-> pip install pipenv
+~~~
+pip install pipenv
+~~~
   
 - **Step3**  
 Navigate to directory that we cloned from git and run the below command to install dependencies
