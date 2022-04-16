@@ -12,7 +12,9 @@ The goal of the project is to create an application that take a list of ingredie
 2. Ask the user to input all the ingredients that they are interested in.
 3. Use the model to predict the type of cuisine and tell the user.
 4. Find the top N closest foods (you can define N). Return the IDs of those dishes to the user. If a dataset does not have IDs associated with them you may add them arbitrarily.
+
 <br/>
+
 ## Structure of project
 2 python files are present in this project, **project2.py** and **predictor.py**
 ### predictor.py
@@ -35,7 +37,7 @@ from sklearn.neighbors import NearestNeighbors
 
 yummly.json file is read using pandas.read_json file and is called RAW_DATA. <br/>
 
-5 functions are written in this program
+- 5 functions are written in this program
 
 #### get_yummly_data
 The RAW_DATA is made a copy and is loaded into dataframe. And the ingredients column of the data undergoes **pre_process_ingredients** function processing, which is described below. And TfidVectorization is done on ingredients data and Label encoding is done on cuisine data which is used as label. These two vectorizations are fitted and transformed. The vectorized ingredients and cuisine data is returned. The code is as below
