@@ -8,13 +8,15 @@ def main(args):
     try:
         output = {}
 
-        svc, nn = predictor.fit_prediction_models()
+        # svc, nn = predictor.fit_prediction_models()
+        svc, nn = predictor.get_models()
         output["cuisine"], output["score"] = predictor.find_cuisine(svc, args.ingredient)
         output["closest"] = predictor.find_closest(nn, args.ingredient, args.N)
 
         print(json.dumps(output, indent=2))
     except BaseException as e:
-        print("Something went wrong!!!")
+        # print("Something went wrong!!!")
+        print(e.with_traceback())
     
 
 

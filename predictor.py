@@ -1,5 +1,6 @@
 import re
 import os
+import pickle
 
 import pandas as pd
 import nltk
@@ -19,7 +20,29 @@ LE = LabelEncoder()
 TFIDF = TfidfVectorizer()
 
 data_file = os.path.join(os.getcwd(), "yummly.json")
+models = {
+    "svc": os.path.join(os.getcwd(), "models", "svc.model"),
+    "nn": os.path.join(os.getcwd(), "models", "nn.model")
+}
 RAW_DATA = pd.read_json(data_file)
+
+def get_models():
+    if not os.path.exists(models['svc']) or not os.path.exists(models['nn']):
+        models_fldr = os.path.join(os.getcwd(), "models")
+        if not os.path.exists(models_fldr):
+            os.mkdir(models_fldr)
+
+        svc, nn = fit_prediction_models()
+        with open(models['svc'], 'wb') as svc_f, open(models['nn'], 'wb') as nn_f:
+            pickle.dump(svc, svc_f)
+            pickle.dump(nn, nn_f)
+        
+        return svc, nn
+    else:
+        _, _ = get_yummly_data()
+        with open(models['svc'], 'rb') as svc_f, open(models['nn'], 'rb') as nn_f:
+            return pickle.load(svc_f), pickle.load(nn_f)
+
 
 def fit_prediction_models():
     x, y = get_yummly_data()
