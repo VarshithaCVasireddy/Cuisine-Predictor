@@ -244,7 +244,7 @@ def test_find_closest(models):
 Clone the project directory using below command
 
 ~~~json
-git clone https://github.com/VarshithaCVasireddy/Cuisine-Predictor
+git clone https://github.com/VarshithaCVasireddy/Cuisine_Predictor
 ~~~
 After cloning go to that folder and run below commands
 <br/>
