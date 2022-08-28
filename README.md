@@ -1,10 +1,6 @@
-# cs5293sp22-project2
+# Cusine Predictor
 ## Author: Varshitha Choudary Vasireddy
-## Setting up the initial installations
-Below packages are to be installed in the project's virtual environment to successfully run the project. The below command has to be followed.
-~~~
-pipenv install nltk, scikit-learn ,pandas , pytest
-~~~
+
 ## Description of the project:
 The goal of the project is to create an application that take a list of ingredients from a user and attempts to predict the type of cuisine and similar meals. Consider a chef who has a list of ingredients and would like to change the current meal without changing the ingredients. The steps to develop the application should proceed as follows.
 
@@ -12,6 +8,12 @@ The goal of the project is to create an application that take a list of ingredie
 2. Ask the user to input all the ingredients that they are interested in.
 3. Use the model to predict the type of cuisine and tell the user.
 4. Find the top N closest foods (you can define N). Return the IDs of those dishes to the user. If a dataset does not have IDs associated with them you may add them arbitrarily.
+
+## Setting up the initial installations
+Below packages are to be installed in the project's virtual environment to successfully run the project. The below command has to be followed.
+~~~
+pipenv install nltk, scikit-learn ,pandas , pytest
+~~~
 
 ## Structure of project
 
