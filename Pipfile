@@ -4,10 +4,12 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-nltk = "*"
-scikit-learn = "*"
-pandas = "*"
-pytest = "*"
+nltk = "3.8.1"
+scikit-learn = "1.2.2"
+pandas = "2.0.1"
+pytest = "7.3.1"
+fastapi = "0.95.2"
+uvicorn = {extras = ["standard"], version = "0.22.0"}
 
 [dev-packages]
 
